@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hangman</title>
+</head>
+<body>
+<div id="showWord"></div>
+
+<script>
+	var hangman = {
+		word: ["Mario", "Luigi", "Peach", "Bowser", "Blooper", "Bullet Bill", "Buzzy Beetle", "Chain Chomp", "Dry Bones", "Goomba", "Hammer Brothers", "Koopa Troopa", "Lakitu", "Magikoopa", "Piranha Plant", "Spiny", "Thwomp"],
+		wins: 0,
+		randomWord : function() {
+			var x = Math.floor((Math.random() * this.word.length));
+			return this.word[x];
+		},
+		displayWord: function(word) {
+			document.getElementById('showWord').innerHTML = word;
+		},
+		checkLetter: function(letter, word) {
+			word = word.toLowerCase();
+			letter = letter.toLowerCase();
+			// Check if letter that is passed matches a letter in word
+			var found = [];
+			for (var i = 0; i < word.length; i++) {
+				if (word[i] === letter) {
+					found.push(i);
+				}
+			}
+			if (found.length > 0) {
+				return found;
+			} else {
+				return -1;
+			}
+
+		}
+	}
+
+	function playRound( event ) {
+		var roundWord = hangman.randomWord();
+		hangman.displayWord(roundWord);
+		var letterChoice = String.fromCharCode(event.keyCode).toLowerCase();
+		console.log(letterChoice);
+		var isMatch = hangman.checkLetter(letterChoice, roundWord);
+		console.log(isMatch);
+
+	}
+
+	document.onkeyup = playRound;
+	
+</script>
+
+</body>
+</html>
