@@ -34,12 +34,13 @@ var hangman = {
 
 		},
 		playRound: function( event ) {
-			var letterChoice = String.fromCharCode(event.keyCode);		
-			var isMatch = this.checkLetter(letterChoice, this.roundWord);
+			var letterChoice = String.fromCharCode(event.keyCode);	
+			var that = 	this;
+			var isMatch = that.checkLetter(letterChoice, this.roundWord);
 			
 			if (isMatch.length > -1) {				
 				$.each(isMatch, function(i, match) {
-					this.currentGuess[match] = this.roundWord[isMatch[i]];
+					that.currentGuess[match] = that.roundWord[isMatch[i]];
 				});
 			} 
 			$("#gameState").html(this.currentGuess);
@@ -91,4 +92,5 @@ var hangman = {
 	}	
 	//console.log(hangman.currentGuess);
 	
-	$(document).on("keyup", hangman.playRound);
+//	$(document).on("keyup", hangman.playRound);
+$(document).on("keyup", hangman.playRound.bind(hangman));
