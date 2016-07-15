@@ -2,53 +2,24 @@
 <html>
 <head>
 	<title>Hangman</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 </head>
 <body>
 <div id="showWord"></div>
+<hr />
+<div id="gameState"></div>
+<hr />
+<div id="triesLeft"></div>
+<hr />
+<div id="wins"></div>
 
-<script>
-	var hangman = {
-		word: ["Mario", "Luigi", "Peach", "Bowser", "Blooper", "Bullet Bill", "Buzzy Beetle", "Chain Chomp", "Dry Bones", "Goomba", "Hammer Brothers", "Koopa Troopa", "Lakitu", "Magikoopa", "Piranha Plant", "Spiny", "Thwomp"],
-		wins: 0,
-		randomWord : function() {
-			var x = Math.floor((Math.random() * this.word.length));
-			return this.word[x];
-		},
-		displayWord: function(word) {
-			document.getElementById('showWord').innerHTML = word;
-		},
-		checkLetter: function(letter, word) {
-			word = word.toLowerCase();
-			letter = letter.toLowerCase();
-			// Check if letter that is passed matches a letter in word
-			var found = [];
-			for (var i = 0; i < word.length; i++) {
-				if (word[i] === letter) {
-					found.push(i);
-				}
-			}
-			if (found.length > 0) {
-				return found;
-			} else {
-				return -1;
-			}
 
-		}
-	}
+<!-- Game code -->
+<script src="assets/javascript/game.js"></script>
+<!-- <script type="text/javascript">
+$(document).on("keyup", playRound);
+</script> -->
 
-	function playRound( event ) {
-		var roundWord = hangman.randomWord();
-		hangman.displayWord(roundWord);
-		var letterChoice = String.fromCharCode(event.keyCode).toLowerCase();
-		console.log(letterChoice);
-		var isMatch = hangman.checkLetter(letterChoice, roundWord);
-		console.log(isMatch);
-
-	}
-
-	document.onkeyup = playRound;
-	
-</script>
 
 </body>
 </html>
