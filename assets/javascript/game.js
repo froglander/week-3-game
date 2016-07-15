@@ -1,8 +1,9 @@
 var hangman = {
 		word: ["Mario", "Luigi", "Peach", "Bowser", "Blooper", "Bullet Bill", "Buzzy Beetle", "Chain Chomp", "Dry Bones", "Goomba", "Hammer Brothers", "Koopa Troopa", "Lakitu", "Magikoopa", "Piranha Plant", "Spiny", "Thwomp"],
 		wins: 0,
+		losses: 0,
 		tries: 10, /* Start with 10 tries */
-		currentGuess: [], /* Blank array to store curent guesses */
+		currentGuess: [], /* Blank array to store current guesses */
 		roundWord: "", /* to store the random word chosen for the round */
 		randomWord : function() {
 			var x = Math.floor((Math.random() * this.word.length));
@@ -11,28 +12,49 @@ var hangman = {
 		displayWord: function(word) {
 			document.getElementById('showWord').innerHTML = word;
 		},
+		/* **************************************************************** */
+		/*	Fill the currentGuess string array with a placeholder character	*/
+		/*	for the number of letters in the random word selected including	*/
+		/*	spaces															*/
+		/* **************************************************************** */
+		blankCurrentGuess: function() {
+			for (var i = 0; i < this.roundWord.length; i++) {
+				if(this.roundWord[i] == " ") {
+					this.currentGuess.push(" ");	
+				} else {
+					this.currentGuess.push("-");
+				}			
+			}	
+		},		
+		/* **************************************************************** */
+		/*	Check if letter that is passed matches a letter in word 		*/
+		/*	If found, push index to found array to return to calling		*/
+		/*	function, otherwise return -1 and decrement tries				*/
+		/* **************************************************************** */
 		checkLetter: function(letter, word) {
 			word = word.toLowerCase();
 			letter = letter.toLowerCase();
-			// Check if letter that is passed matches a letter in word
-			// If found, push index to found array to return to calling
-			// function
+			
 			var found = [];
 			for (var i = 0; i < word.length; i++) {
 				if (word[i] === letter) {
 					found.push(i);
 				}
 			}
-			// If there were any letters found, return found
-			// Otherwise decrement tries and return -1
 			if (found.length > 0) {
 				return found;
 			} else {
 				this.tries--;
 				return -1;
 			}
-
 		},
+		/* **************************************************************** */
+		/*	Play a single round 											*/
+		/*	Capture user's keypress and call isMatch function to see if the	*/
+		/* 	key pressed is in the word.  If so, update the currentGuess 	*/
+		/* 	string, the number of tries remaining and check if they have 	*/
+		/*	won or lost the game 											*/
+		/* **************************************************************** */
 		playRound: function( event ) {
 			var letterChoice = String.fromCharCode(event.keyCode);	
 			var that = 	this;
@@ -48,49 +70,23 @@ var hangman = {
 
 
 			if (this.currentGuess.join("") == this.roundWord) {
-				$("#wins").html("Yay, you guessed the word!");
+				$("#currentStatus").html("Yay, you guessed the word!");
+				this.wins++;
+				$("#wins").html("You have won " + this.wins + " games");
+				// call reset
+			} else if (this.tries == 0){
+				//Oh no, you lost!
+				$("#currentStatus").html("Oh no, you lost!");
+				this.losses++;
+				// call reset
 			} else {
-				$("#wins").html("Keep guessing!");
+				$("#currentStatus").html("Keep guessing!");
 			}
-
 		}
 	}
 
-	// function playRound( event ) {
-	// 	var letterChoice = String.fromCharCode(event.keyCode);		
-	// 	var isMatch = hangman.checkLetter(letterChoice, roundWord);
-		
-	// 	if (isMatch.length > -1) {
-	// 		console.log(isMatch);
-	// 		$.each(isMatch, function(i, match) {
-	// 			hangman.currentGuess[match] = roundWord[isMatch[i]];
-	// 		});
-	// 	} 
-	// 	$("#gameState").html(hangman.currentGuess);
-	// 	$("#triesLeft").html(hangman.tries);
-
-
-	// 	if (hangman.currentGuess.join("") == roundWord) {
-	// 		$("#wins").html("Yay, you guessed the word!");
-	// 	} else {
-	// 		$("#wins").html("Keep guessing!");
-	// 	}
-
-	// }
-
-	
-  
 	hangman.roundWord = hangman.randomWord();	
-	// Fill currentGuess string array with placeholder - for the number
-	// of letters in the random word selected
-	for (var i = 0; i < hangman.roundWord.length; i++) {
-		if(hangman.roundWord[i] == " ") {
-			hangman.currentGuess.push(" ");	
-		} else {
-			hangman.currentGuess.push("-");
-		}			
-	}	
-	//console.log(hangman.currentGuess);
-	
-//	$(document).on("keyup", hangman.playRound);
-$(document).on("keyup", hangman.playRound.bind(hangman));
+	hangman.blankCurrentGuess();
+
+	// Courtesy of Dwight so it would work after I moved playRound into my object
+	$(document).on("keyup", hangman.playRound.bind(hangman));
