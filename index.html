@@ -13,40 +13,53 @@
 	<header><h1>Mario World Hangman</h1></header>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
+			<div class="col-sm-6 col-sm-offset-3">
 				<div id="gameDisplay" class="panel panel-default">
 	  				<div class="panel-body">
 	  					<div class="row">
-	  						<div class="col-md-12">
+	  						<div class="col-sm-12">
 	  							<div id="currentWord"></div>
 	  						</div>
 	  					</div>
 	  					<div class="row">
-	  						<div class="col-md-7">
+	  						<div class="col-sm-7">
 	  							<div id="gameState"></div>
 	  						</div>
-	  						<div class="col-md-5">
+	  						<div class="col-sm-5">
 	  							<div class="row">
-	  								<div class="col-md-12">
+	  								<div class="col-sm-12">
 	  									<div>Tries Left: <span id="triesLeft"></span></div>
 	  								</div>
-	  								<div class="col-md-12">
+	  								<div class="col-sm-12">
 	  									<div>Wins: <span id="wins"></span></div>
 	  								</div>
-									<div class="col-md-12">
+									<div class="col-sm-12">
 										<div>Losses: <span id="losses"></span></div>
 	  								</div>
 	  							</div>	  								  							
 	  						</div>
 	  					</div>
 	  					<div class="row">
-	  						<div class="col-md-12">
+	  						<div class="col-sm-12">
 	  							<div id="lettersGuessed"></div>
 	  						</div>
 	  					</div>
 					</div>
 				</div>
 			</div>
+		</div>
+		<div class="row showLastWord">
+			<div class="col-sm-6 col-sm-offset-3">
+				<div class="panel panel-default">
+	  				<div class="panel-body">
+	  					<div class="row">
+	  						<div class="col-sm-12">
+	  							<div id="lastWord"></div>
+	  						</div>
+	  					</div>
+	  				</div>
+	  			</div>
+	  		</div>
 		</div>
 	</div>
 	<!-- Game code -->

@@ -27,7 +27,7 @@ h1 {
 }
 
 #gameDisplay {
-	margin: 100px 20px 10px 20px;
+	margin: 100px 0 10px 0;
 	height: 300px;
 	font-family: 'Bangers', cursive;
 	font-size: 30px;
@@ -39,7 +39,13 @@ h1 {
 	margin-bottom: 20px;
 }
 .panel {
-	border: 1px solid #387d24;
-	min-width: 513px;
+	border: 1px solid #387d24;	
 	margin: 0 auto;
+}
+#lastWord {	
+	font-family: 'Bangers', cursive;
+	font-size: 30px;
+}
+.showLastWord {
+	display: none;
 }

@@ -78,12 +78,16 @@ var hangman = {
 				$("#gameState").html("Yay, you guessed the word!");
 				this.wins++;
 				$("#wins").html(this.wins);
+				$("#lastWord").html(this.roundWord);
+				$(".showLastWord").show();
 				this.gameReset();
 			} else if (this.tries == 0){
 				//Oh no, you lost!
 				$("#gameState").html("Oh no, you lost! <br/> The word was: " + this.roundWord);
 				this.losses++;
 				$("#losses").html(this.losses);
+				$("#lastWord").html(this.roundWord);
+				$(".showLastWord").show();
 				this.gameReset();
 			} else {
 				$("#gameState").html("Keep guessing!");
