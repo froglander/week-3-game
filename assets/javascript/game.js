@@ -55,6 +55,7 @@ var hangman = {
 		/*	won or lost the game 											*/
 		/* **************************************************************** */
 		playRound: function( event ) {
+			$(".showLastWord").hide();
 			var letterChoice = String.fromCharCode(event.keyCode);	
 
 			// If letter has already been guessed, skip it			
