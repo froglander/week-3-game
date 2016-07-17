@@ -32,6 +32,10 @@ var hangman = {
 		roundArray: [], /* to store word and img src */
 		roundWord: "", /* to store the random word chosen for the round */
 		roundPic: "", /* to store image src */
+		letterRightSound: new Audio("assets/audio/smw_coin.wav"),
+		letterWrongSound: new Audio("assets/audio/smw_thud.wav"),
+		winSound: new Audio("assets/audio/smw_course_clear.wav"),
+		loseSound: new Audio("assets/audio/smw_lost_a_life.wav"),
 		randomWord : function() {
 			var x = Math.floor((Math.random() * this.words.length));
 			return this.words[x];
@@ -83,7 +87,7 @@ var hangman = {
 		playRound: function( event ) {
 			$(".showLastWord").hide();
 
-			// Only process if the key pressed was a letter from a to z aka keyCode 65-90
+			// Only process keypress if the key pressed was a letter from a to z aka keyCode 65-90
 			if (event.keyCode >= 65 && event.keyCode <= 90) {
 				var letterChoice = String.fromCharCode(event.keyCode);	
 			} else {
@@ -101,8 +105,10 @@ var hangman = {
 			if (isMatch.length > -1) {				
 				$.each(isMatch, function(i, match) {
 					that.currentGuess[match] = that.roundWord[isMatch[i]];
-				});
-			} 
+				});				
+				this.letterRightSound.play();
+			} else { this.letterWrongSound.play(); }
+
 			$("#currentWord").html(this.currentGuess);
 			$("#triesLeft").html(this.tries);
 			$("#lettersGuessed").html(this.lettersGuessed.toString());
@@ -111,7 +117,8 @@ var hangman = {
 				$("#gameState").html("Yay, you guessed the word!");
 				this.wins++;
 				$("#wins").html(this.wins);
-				$("#lastWord").html("Good job, it was " + this.roundWord);
+				this.winSound.play();
+				$("#lastWord").html("Good job! It was " + this.roundWord);
 				$("#lastWordPic").html("<img src='assets/images/" + this.roundPic + "'/>");
 				$(".showLastWord").show();
 				this.gameReset();
@@ -120,6 +127,7 @@ var hangman = {
 				$("#gameState").html("Oh no, you lost! <br/> The word was: " + this.roundWord);
 				this.losses++;
 				$("#losses").html(this.losses);
+				this.loseSound.play();
 				$("#lastWord").html("Too bad, the word was: " + this.roundWord);
 				$("#lastWordPic").html("<img src='assets/images/" + this.roundPic + "'/>");
 				$(".showLastWord").show();
