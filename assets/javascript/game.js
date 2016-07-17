@@ -1,14 +1,40 @@
 var hangman = {
-		word: ["Mario", "Luigi", "Peach", "Bowser", "Blooper", "Bullet Bill", "Buzzy Beetle", "Chain Chomp", "Dry Bones", "Goomba", "Hammer Brothers", "Koopa Troopa", "Lakitu", "Magikoopa", "Piranha Plant", "Spiny", "Thwomp", "Yoshi"],
+		words: [ ["Mario", "mario.png"],
+				["Luigi", "luigi.png"],
+				["Peach", "peach.png"],
+				["Bowser", "bowser.png"],
+				["Blooper", "blooper.png"], 
+				["Bullet Bill", "bullet_bill.png"], 
+				["Buzzy Beetle", "buzzy_bettle.png"],
+				["Chain Chomp", "chain_chomp.png"],
+				["Dry Bones", "dry_bones.png"],
+				["Goomba", "goomba.png"],
+				["Hammer Brothers", "hammer_brothers.png"],
+				["Koopa Troopa", "koopa_troopa.png"],
+				["Magikoopa", "magikoopa.png"],
+				["Piranha Plant", "piranha_plant.png"],
+				["Spiny", "spiny.png"],
+				["Thwomp", "thwomp.png"],
+				["Yoshi", "yoshi.png"],
+				["Larry Koopa", "larry_koopa.png"],
+				["Iggy Koopa", "iggy_koopa.png"],
+				["Lemmy Koopa", "lemmy_koopa.png"],
+				["Ludwig von Koopa", "ludwig_von_koopa.png"],
+				["Morton Koopa", "morton_koopa.png"],
+				["Roy Koopa", "roy_koopa.png"],
+				["Wendy O Koopa", "wendy_o_koopa.png"]
+			],
 		wins: 0,
 		losses: 0,
 		tries: 10, /* Start with 10 tries */
 		currentGuess: [], /* Blank array to store current guesses */
 		lettersGuessed: [], /* Blank array to store all guessed letters */
+		roundArray: [], /* to store word and img src */
 		roundWord: "", /* to store the random word chosen for the round */
+		roundPic: "", /* to store image src */
 		randomWord : function() {
-			var x = Math.floor((Math.random() * this.word.length));
-			return this.word[x];
+			var x = Math.floor((Math.random() * this.words.length));
+			return this.words[x];
 		},		
 		/* **************************************************************** */
 		/*	Fill the currentGuess string array with a placeholder character	*/
@@ -56,8 +82,14 @@ var hangman = {
 		/* **************************************************************** */
 		playRound: function( event ) {
 			$(".showLastWord").hide();
-			var letterChoice = String.fromCharCode(event.keyCode);	
 
+			// Only process if the key pressed was a letter from a to z aka keyCode 65-90
+			if (event.keyCode >= 65 && event.keyCode <= 90) {
+				var letterChoice = String.fromCharCode(event.keyCode);	
+			} else {
+				return;
+			}
+			
 			// If letter has already been guessed, skip it			
 			if (this.lettersGuessed.indexOf(letterChoice) > -1 ) return; 
 			
@@ -79,7 +111,8 @@ var hangman = {
 				$("#gameState").html("Yay, you guessed the word!");
 				this.wins++;
 				$("#wins").html(this.wins);
-				$("#lastWord").html(this.roundWord);
+				$("#lastWord").html("Good job, it was " + this.roundWord);
+				$("#lastWordPic").html("<img src='assets/images/" + this.roundPic + "'/>");
 				$(".showLastWord").show();
 				this.gameReset();
 			} else if (this.tries == 0){
@@ -87,7 +120,8 @@ var hangman = {
 				$("#gameState").html("Oh no, you lost! <br/> The word was: " + this.roundWord);
 				this.losses++;
 				$("#losses").html(this.losses);
-				$("#lastWord").html(this.roundWord);
+				$("#lastWord").html("Too bad, the word was: " + this.roundWord);
+				$("#lastWordPic").html("<img src='assets/images/" + this.roundPic + "'/>");
 				$(".showLastWord").show();
 				this.gameReset();
 			} else {
@@ -97,8 +131,11 @@ var hangman = {
 		/* **************************************************************** */
 		/* Reset function to get a new word and reset to blank guesses		*/
 		/* **************************************************************** */
-		gameReset: function() {
-			this.roundWord = this.randomWord();
+		gameReset: function() {			
+			this.roundArray = this.randomWord(); 
+			this.roundWord = this.roundArray[0];
+			this.roundPic = this.roundArray[1];
+
 			this.currentGuess = [];
 			this.blankCurrentGuess();	
 			this.tries = 10;			
@@ -108,8 +145,9 @@ var hangman = {
 			$("#lettersGuessed").html(this.lettersGuessed.toString());			
 		}
 	}
-
-	hangman.roundWord = hangman.randomWord();	
+	hangman.roundArray = hangman.randomWord(); 
+	hangman.roundWord = hangman.roundArray[0];
+	hangman.roundPic = hangman.roundArray[1];
 	hangman.blankCurrentGuess();
 	$("#triesLeft").html(hangman.tries);
 	$("#wins").html(hangman.wins);
