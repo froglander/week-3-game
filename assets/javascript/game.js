@@ -5,7 +5,7 @@ var hangman = {
 				["Bowser", "bowser.png"],
 				["Blooper", "blooper.png"], 
 				["Bullet Bill", "bullet_bill.png"], 
-				["Buzzy Beetle", "buzzy_bettle.png"],
+				["Buzzy Beetle", "buzzy_beetle.png"],
 				["Chain Chomp", "chain_chomp.png"],
 				["Dry Bones", "dry_bones.png"],
 				["Goomba", "goomba.png"],
