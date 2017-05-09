@@ -20,7 +20,7 @@ var hangman = {
 				["Iggy Koopa", "iggy_koopa.png"],
 				["Lemmy Koopa", "lemmy_koopa.png"],
 				["Ludwig von Koopa", "ludwig_von_koopa.png"],
-				["Morton Koopa", "morton_koopa.png"],
+				["Morton Koopa", "morton_koopa_jr.png"],
 				["Roy Koopa", "roy_koopa.png"],
 				["Wendy O Koopa", "wendy_o_koopa.png"]
 			],
